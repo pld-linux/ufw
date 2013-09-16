@@ -6,7 +6,6 @@ License:	GPL v3+
 Group:		Networking/Admin
 Source0:	http://launchpad.net/ufw/0.33/%{version}/+download/%{name}-%{version}.tar.gz
 # Source0-md5:	3747b453d76709e5a99da209fc0bb5f5
-Patch0:		common.py-file.patch
 URL:		http://launchpad.net/ufw
 BuildRequires:	iptables >= 1.4
 BuildRequires:	python-devel >= 1:2.6
@@ -24,18 +23,15 @@ manipulating the firewall.
 
 %prep
 %setup -q
-# Submited patch through ufw's bug report
-# Fix directory locations instead of #CONFIG_PREFIX#
-# http://bugs.launchpad.net/ufw/+bug/819600
-%patch0 -p0
 
 %build
-%{__python} setup.py build
+# We skip 'build' and run 'install' directly
+# http://bugs.launchpad.net/ufw/+bug/819600
+#%{__python} setup.py build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install \
-	--skip-build \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
 
@@ -46,7 +42,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog COPYING README* TODO AUTHORS
+%doc ChangeLog README* TODO AUTHORS
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/default/ufw
 %dir %{_sysconfdir}/ufw
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ufw/*.conf
@@ -63,5 +59,6 @@ rm -rf $RPM_BUILD_ROOT
 /lib/ufw/ufw-init-functions
 /lib/ufw/user.rules
 /lib/ufw/user6.rules
-%{py_sitescriptdir}/ufw
+%dir %{py_sitescriptdir}/ufw
+%{py_sitescriptdir}/ufw/*.py[co]
 %{py_sitescriptdir}/ufw-%{version}-py*.egg-info
