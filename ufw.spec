@@ -7,8 +7,8 @@ Group:		Networking/Admin
 Source0:	http://launchpad.net/ufw/0.33/%{version}/+download/%{name}-%{version}.tar.gz
 # Source0-md5:	3747b453d76709e5a99da209fc0bb5f5
 Patch0:		sysconfig.patch
+Patch1:		dont-check-iptables.patch
 URL:		http://launchpad.net/ufw
-BuildRequires:	iptables >= 1.4
 BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
@@ -28,6 +28,7 @@ manipulating the firewall.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 # typo
 sed -i -e 's,/etc/defaults/ufw,/etc/sysconfig/ufw,' README
