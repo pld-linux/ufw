@@ -1,0 +1,20 @@
+--- src/common.py	2011-03-22 13:00:03.000000000 -0500
++++ src/common.py-new	2011-08-01 21:47:34.889906168 -0500
+@@ -22,12 +22,12 @@
+ from ufw.util import debug
+ 
+ programName = "ufw"
+-state_dir = "#STATE_PREFIX#"
+-share_dir = "#SHARE_DIR#"
++state_dir = "/lib/ufw/"
++share_dir = "/usr/share/"
+ trans_dir = share_dir
+-config_dir = "#CONFIG_PREFIX#"
+-prefix_dir = "#PREFIX#"
+-iptables_dir = "#IPTABLES_DIR#"
++config_dir = "/etc/"
++prefix_dir = "/usr/"
++iptables_dir = "/sbin/"
+ 
+ class UFWError(Exception):
+     '''This class represents ufw exceptions'''
