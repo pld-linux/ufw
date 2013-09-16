@@ -8,12 +8,13 @@ Source0:	http://launchpad.net/ufw/0.33/%{version}/+download/%{name}-%{version}.t
 # Source0-md5:	3747b453d76709e5a99da209fc0bb5f5
 Patch0:		sysconfig.patch
 Patch1:		dont-check-iptables.patch
+Patch2:		conntrack.patch
 URL:		http://launchpad.net/ufw
 BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sed >= 4.0
-Requires:	iptables >= 1.4
+Requires:	iptables >= 1.4.16
 Requires:	iptables-init
 Requires:	python-modules
 BuildArch:	noarch
@@ -29,6 +30,7 @@ manipulating the firewall.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # typo
 sed -i -e 's,/etc/defaults/ufw,/etc/sysconfig/ufw,' README
