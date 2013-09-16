@@ -6,11 +6,13 @@ License:	GPL v3+
 Group:		Networking/Admin
 Source0:	http://launchpad.net/ufw/0.33/%{version}/+download/%{name}-%{version}.tar.gz
 # Source0-md5:	3747b453d76709e5a99da209fc0bb5f5
+Patch0:		sysconfig.patch
 URL:		http://launchpad.net/ufw
 BuildRequires:	iptables >= 1.4
 BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	sed >= 4.0
 Requires:	iptables >= 1.4
 Requires:	python-modules
 BuildArch:	noarch
@@ -24,6 +26,13 @@ manipulating the firewall.
 
 %prep
 %setup -q
+%patch0 -p1
+
+# typo
+sed -i -e 's,/etc/defaults/ufw,/etc/sysconfig/ufw,' README
+
+# pldize sysconfig path
+grep -rl /etc/default/ufw . | xargs sed -i -e 's,/etc/default/ufw,/etc/sysconfig/ufw,'
 
 %build
 # We skip 'build' and run 'install' directly
@@ -44,7 +53,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog README* TODO AUTHORS
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/default/ufw
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ufw
 %dir %{_sysconfdir}/ufw
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ufw/*.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ufw/*.rules
