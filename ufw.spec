@@ -1,16 +1,18 @@
 Summary:	Uncomplicated Firewall
 Name:		ufw
-Version:	0.30.1
+Version:	0.33
 Release:	1
 License:	GPL v3+
 Group:		Networking/Admin
-URL:		http://launchpad.net/ufw
-Source0:	http://launchpad.net/ufw/0.30/%{version}/+download/%{name}-%{version}.tar.gz
-# Source0-md5:	3182fad2249cf5f7e5589f44f0f078bd
+Source0:	http://launchpad.net/ufw/0.33/%{version}/+download/%{name}-%{version}.tar.gz
+# Source0-md5:	3747b453d76709e5a99da209fc0bb5f5
 Patch0:		common.py-file.patch
-BuildRequires:	iptables-devel
+URL:		http://launchpad.net/ufw
+BuildRequires:	iptables >= 1.4
+BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
+Requires:	iptables >= 1.4
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
