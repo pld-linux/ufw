@@ -56,7 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/ufw.8*
 %{_datadir}/%{name}
 %dir /lib/ufw
-/lib/ufw/ufw-init
+%attr(755,root,root) /lib/ufw/ufw-init
 /lib/ufw/ufw-init-functions
 /lib/ufw/user.rules
 /lib/ufw/user6.rules
