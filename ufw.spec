@@ -1,7 +1,7 @@
 Summary:	Uncomplicated Firewall
 Name:		ufw
 Version:	0.33
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Networking/Admin
 Source0:	http://launchpad.net/ufw/0.33/%{version}/+download/%{name}-%{version}.tar.gz
@@ -32,11 +32,13 @@ manipulating the firewall.
 %patch1 -p1
 %patch2 -p1
 
+%{__sed} -i -re 's,#! /usr/bin/env ,#!,' setup.py
+
 # typo
-sed -i -e 's,/etc/defaults/ufw,/etc/sysconfig/ufw,' README
+%{__sed} -i -e 's,/etc/defaults/ufw,/etc/sysconfig/ufw,' README
 
 # pldize sysconfig path
-grep -rl /etc/default/ufw . | xargs sed -i -e 's,/etc/default/ufw,/etc/sysconfig/ufw,'
+grep -rl /etc/default/ufw . | xargs %{__sed} -i -e 's,/etc/default/ufw,/etc/sysconfig/ufw,'
 
 %build
 # We skip 'build' and run 'install' directly
