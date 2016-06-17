@@ -9,26 +9,25 @@
          ufwconf = os.path.join(confdir, 'ufw', 'ufw.conf')
          sysctl = os.path.join(confdir, 'ufw', 'sysctl.conf')
          before_rules = os.path.join(confdir, 'ufw', 'before.rules')
---- ufw-0.33.n/src/backend.py	2012-08-18 00:12:49.000000000 +0300
-+++ ufw-0.33/src/backend.py	2013-09-16 11:29:34.819300854 +0300
-@@ -32,8 +32,8 @@
-         self.dryrun = dryrun
-         self.rules = []
+--- ufw-0.35/src/backend.py~	2016-02-18 07:26:44.000000000 +0200
++++ ufw-0.35/src/backend.py	2016-06-17 12:53:04.165668850 +0300
+@@ -37,7 +37,7 @@
          self.rules6 = []
  
--        self.files = {'defaults': os.path.join(config_dir, 'default/ufw'),
-+        self.files = {'defaults': os.path.join(config_dir, 'sysconfig/ufw'),
-                       'conf': os.path.join(config_dir, 'ufw/ufw.conf'),
-                       'apps': os.path.join(config_dir, 'ufw/applications.d') }
+         p = _findpath(ufw.common.config_dir, datadir)
+-        self.files = {'defaults': os.path.join(p, 'default/ufw'),
++        self.files = {'defaults': os.path.join(p, 'sysconfig/ufw'),
+                       'conf': os.path.join(p, 'ufw/ufw.conf'),
+                       'apps': os.path.join(p, 'ufw/applications.d') }
          if extra_files != None:
---- ufw-0.33.n/src/ufw-init-functions	2012-08-18 00:12:49.000000000 +0300
-+++ ufw-0.33/src/ufw-init-functions	2013-09-16 11:29:34.819300854 +0300
+--- ufw-0.35/src/ufw-init-functions~	2016-02-18 07:26:44.000000000 +0200
++++ ufw-0.35/src/ufw-init-functions	2016-06-17 12:53:34.520564916 +0300
 @@ -20,7 +20,7 @@
  
  PATH="/sbin:/bin:/usr/sbin:/usr/bin"
  
--for s in "#CONFIG_PREFIX#/default/ufw" "#CONFIG_PREFIX#/ufw/ufw.conf" ; do
-+for s in "#CONFIG_PREFIX#/sysconfig/ufw" "#CONFIG_PREFIX#/ufw/ufw.conf" ; do
+-for s in "${DATA_DIR}#CONFIG_PREFIX#/default/ufw" "${DATA_DIR}#CONFIG_PREFIX#/ufw/ufw.conf" ; do
++for s in "${DATA_DIR}#CONFIG_PREFIX#/sysconfig/ufw" "${DATA_DIR}#CONFIG_PREFIX#/ufw/ufw.conf" ; do
      if [ -s "$s" ]; then
          . "$s"
      else

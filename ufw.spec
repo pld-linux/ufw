@@ -1,18 +1,17 @@
 Summary:	Uncomplicated Firewall
 Name:		ufw
-Version:	0.33
-Release:	2
+Version:	0.35
+Release:	1
 License:	GPL v3+
 Group:		Networking/Admin
-Source0:	http://launchpad.net/ufw/0.33/%{version}/+download/%{name}-%{version}.tar.gz
-# Source0-md5:	3747b453d76709e5a99da209fc0bb5f5
+Source0:	http://launchpad.net/ufw/%{version}/%{version}/+download/%{name}-%{version}.tar.gz
+# Source0-md5:	b7cd2dd4e4e98e46df125fee06edff92
 Patch0:		sysconfig.patch
 Patch1:		dont-check-iptables.patch
-Patch2:		conntrack.patch
 URL:		http://launchpad.net/ufw
 BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	sed >= 4.0
 Requires:	iptables >= 1.4.16
 Requires:	iptables-init
@@ -30,7 +29,6 @@ manipulating the firewall.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %{__sed} -i -re 's,#! /usr/bin/env ,#!,' setup.py
 
@@ -47,10 +45,7 @@ grep -rl /etc/default/ufw . | xargs %{__sed} -i -e 's,/etc/default/ufw,/etc/sysc
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
-
+%py_install
 %py_postclean
 
 %clean
@@ -63,6 +58,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/ufw
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ufw/*.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ufw/*.rules
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ufw/after.init
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ufw/before.init
 %dir %{_sysconfdir}/ufw/applications.d
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ufw/applications.d/*
 
@@ -73,8 +70,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir /lib/ufw
 %attr(755,root,root) /lib/ufw/ufw-init
 /lib/ufw/ufw-init-functions
-/lib/ufw/user.rules
-/lib/ufw/user6.rules
 %dir %{py_sitescriptdir}/ufw
 %{py_sitescriptdir}/ufw/*.py[co]
 %{py_sitescriptdir}/ufw-%{version}-py*.egg-info
